@@ -5,6 +5,8 @@ import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import { ContactForm } from './ContactForm/ContactForm';
 
+import css from './App.module.css';
+
 export class App extends Component {
   state = {
     contacts: [
@@ -40,12 +42,12 @@ export class App extends Component {
     );
 
     return (
-      <div>
-        <h2>Phonebook</h2>
+      <div className={css.mainContainer}>
+        <h2 className={css.headers}>Phonebook</h2>
 
         <ContactForm onSubmit={this.formSubmitHandler} contacts={contacts} />
 
-        <h2>Contacts</h2>
+        <h2 className={css.headers}>Contacts</h2>
 
         <ContactForm onSubmit={this.formSubmitHandler} />
 
