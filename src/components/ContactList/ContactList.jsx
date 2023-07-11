@@ -1,25 +1,21 @@
 import PropTypes from 'prop-types';
+import { ContactItem } from 'components/ContactItem/ContactItem';
 
 export const ContactList = ({ contacts, onDeleteContact }) => (
-  <ul>
+  <ul className={css.listContainer}>
     {contacts.map(({ id, name, number }) => (
-      <li key={id}>
-        <p>
-          {name}: <span>{number}</span>
-        </p>
-        <button onClick={() => onDeleteContact(id)}>Delete</button>
-      </li>
+      <ContactItem
+        key={id}
+        id={id}
+        name={name}
+        number={number}
+        onDeleteContact={onDeleteContact}
+      />
     ))}
   </ul>
 );
 
 ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.number.isRequired,
-    })
-  ),
+  contacts: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string.isRequired)),
   onDeleteContact: PropTypes.func.isRequired,
 };
