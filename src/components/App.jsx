@@ -26,6 +26,7 @@ export class App extends Component {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     }));
+    this.setState({ filter: '' });
   };
 
   formSubmitHandler = data => {
@@ -43,13 +44,11 @@ export class App extends Component {
 
     return (
       <div className={css.mainContainer}>
-        <h2 className={css.headers}>Phonebook</h2>
+        <h1 className={css.title}>Phonebook</h1>
 
         <ContactForm onSubmit={this.formSubmitHandler} contacts={contacts} />
 
-        <h2 className={css.headers}>Contacts</h2>
-
-        <ContactForm onSubmit={this.formSubmitHandler} />
+        <h2 className={css.title}>Contacts</h2>
 
         <Filter value={filter} onChange={this.changeFilter} />
 
