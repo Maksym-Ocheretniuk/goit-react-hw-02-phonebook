@@ -1,48 +1,60 @@
 import { Component } from 'react';
+import { nanoid } from 'nanoid';
+
 import { ContactList } from './ContactList/ContactList';
+import { Filter } from './Filter/Filter';
+import { ContactForm } from './ContactForm/ContactForm';
 
 export class App extends Component {
   state = {
-    contacts: [],
-    name: '',
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ],
+    filter: '',
   };
 
-  handleChange = e => {
-    this.setState({ name: e.target.value });
+  changeFilter = e => {
+    this.setState({ ...this.state, filter: e.target.value });
   };
 
-  handleNameSubmit = e => {
-    e.preventDefault();
-    // console.log(this.state)
-    this.reset();
+  deleteContact = contactId => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    }));
   };
 
-  reset = () => {
-    this.setState({ contacts: [] });
+  formSubmitHandler = data => {
+    const { contacts } = this.state;
+    const newContact = { ...data, id: nanoid() };
+    this.setState({ contacts: [...contacts, newContact] });
   };
 
   render() {
-    const { contacts, name } = this.state;
+    const { contacts, filter } = this.state;
+    const normalizedFilter = filter.toLowerCase();
+    const visibleContacts = contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter)
+    );
+
     return (
       <div>
         <h2>Phonebook</h2>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Name
-            <input
-              value={name}
-              onChange={this.handleNameChange}
-              type="text"
-              name="name"
-              pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-              title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-              required
-            />
-          </label>
-          <button type="submit">Add contact</button>
-        </form>
-        <h3>Contacts</h3>
-        <ContactList contacts={contacts} />
+
+        <ContactForm onSubmit={this.formSubmitHandler} contacts={contacts} />
+
+        <h2>Contacts</h2>
+
+        <ContactForm onSubmit={this.formSubmitHandler} />
+
+        <Filter value={filter} onChange={this.changeFilter} />
+
+        <ContactList
+          contacts={visibleContacts}
+          onDeleteContact={this.deleteContact}
+        />
       </div>
     );
   }
