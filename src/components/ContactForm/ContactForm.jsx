@@ -17,7 +17,6 @@ export class ContactForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { name, number } = this.state;
-    this.reset();
 
     const isNameExist = this.props.contacts.some(
       contact => contact.name.toLowerCase() === name.toLowerCase()
@@ -27,8 +26,9 @@ export class ContactForm extends Component {
       alert(`${name} is already in contacts.`);
       return;
     }
+    this.props.onSubmit({ name, number });
 
-    this.props.onFormSubmit({ name, number });
+    this.reset();
   };
 
   reset = () => {
@@ -75,6 +75,6 @@ export class ContactForm extends Component {
 }
 
 ContactForm.propTypes = {
-  onFormSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   contacts: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string.isRequired)),
 };
