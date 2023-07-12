@@ -22,6 +22,7 @@ export class ContactForm extends Component {
     const isNameExist = this.props.contacts.some(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
+
     if (isNameExist) {
       alert(`${name} is already in contacts.`);
       return;

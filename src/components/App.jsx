@@ -32,7 +32,7 @@ export class App extends Component {
   formSubmitHandler = data => {
     const { contacts } = this.state;
     const newContact = { ...data, id: nanoid() };
-    this.setState({ contacts: [...contacts, newContact] });
+    this.setState({ contacts: [newContact, ...contacts] });
   };
 
   render() {
